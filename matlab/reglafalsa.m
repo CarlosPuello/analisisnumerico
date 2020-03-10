@@ -22,7 +22,7 @@ elseif iter <= 0
 else
     i = 1;
     mprev = 0;
-    err = 100000;
+    err = tol + 1;
     fprintf('\n |   i  |  a   |   b  |   m   |  f(m)  |  err |');
     fprintf('\n ----------------------------------------------');
     
@@ -32,15 +32,24 @@ else
         
         if i != 1
             err = abs(m - mprev);
+            fprintf('\n |   %g  |  %g   |   %g  |   %g   |  %g  |  %g |', i,a,b,m,fm,err);
+        else
+            fprintf('\n |   %g  |  %g   |   %g  |   %g   |  %g  |  0 |', i,a,b,m,fm);
         endif
         
-        fprintf('\n |   %g  |  %g   |   %g  |   %g   |  %g  |  %g |', i,a,b,m,fm,err);
-        
         if fm != 0
-            if fm < 0
-                a = m;
-            elseif fm > 0
-                b = m;
+            if fm > 0
+                if fa > 0
+                    a = m;
+                else
+                    b = m;
+                endif
+            elseif fm < 0
+                if fa < 0
+                    a = m;
+                else
+                    b = m;
+                endif
             endif
         else
             fprintf('\n %m es raiz');
