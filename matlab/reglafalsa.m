@@ -22,12 +22,12 @@ elseif iter <= 0
 else
     i = 1;
     mprev = 0;
-    err = 1;
+    err = 100000;
     fprintf('\n |   i  |  a   |   b  |   m   |  f(m)  |  err |');
     fprintf('\n ----------------------------------------------');
     
     while err > tol && i <= iter
-        m = (a+b)/2;
+        m = a - ((f(a)*(a-b))/(f(a)-f(b)));
         fm = f(m);
         
         if i != 1
