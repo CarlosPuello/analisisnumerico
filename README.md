@@ -11,5 +11,5 @@ Esta aplicación contiene los algoritmos vistos en la materia Análisis numéric
 
 * **Carlos Daniel Puello Peña**
 * **Juan Andrés López Bedoya**
-* **Manuela Gómez Giraldo**
+* **Manuela Gallego Gómez**
 * **Nicolás Raigosa Montoya**
