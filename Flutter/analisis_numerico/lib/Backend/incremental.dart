@@ -1,4 +1,3 @@
-import 'dart:collection';
 
 import 'package:analisis_numerico/Commons/funciones.dart';
 

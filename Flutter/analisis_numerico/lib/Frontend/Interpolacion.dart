@@ -1,35 +1,31 @@
-import 'package:analisis_numerico/Frontend/Diferenciales.dart';
-import 'package:analisis_numerico/Frontend/Ecuaciones.dart';
-import 'package:analisis_numerico/Frontend/Interpolacion.dart';
-import 'package:analisis_numerico/Frontend/EcLineales/ecuacionesLineales.dart';
 import 'package:analisis_numerico/Frontend/EcLineales/incremental.dart';
 import 'package:flutter/material.dart';
 
 
-class AnalisisHome extends StatefulWidget {
+class Interpolacion extends StatefulWidget {
 
-  AnalisisHome({Key key}) : super(key: key);
+  Interpolacion({Key key}) : super(key: key);
   @override
-  _AnalisisHomeState createState() => _AnalisisHomeState();
+  _InterpolacionHomeState createState() => _InterpolacionHomeState();
 }
 
-class _AnalisisHomeState extends State<AnalisisHome> {
+class _InterpolacionHomeState extends State<Interpolacion> {
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Análisis Numérico'),
+        title: Text('Interpolation'),
       ),
       body: Center(
-        child: sectionList()
+          child: Container(child: Text("This is not enough sexy yet"),)
       ),
     );
   }
 
-  Widget sectionList(){
-    final List<String> entries = <String>['Ecuaciones Lineales', 'Ecuaciones','Interpolacion','Diferenciacion'];
-    final List<Widget> pages = <Widget>[EcuacionesLineales(), Ecuaciones(), Interpolacion(), Diferenciales()];
+  Widget buttonsList(){
+    final List<String> entries = <String>['Incremental', 'Bisection'];
+    final List<Widget> pages = <Widget>[IncrementalFront()];
     //final List<int> colorCodes = <int>[600, 500, 100];
     return ListView.separated(
       padding: const EdgeInsets.all(8),
