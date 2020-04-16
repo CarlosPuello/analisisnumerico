@@ -1,19 +1,18 @@
 import 'dart:math';
 
-import 'package:analisis_numerico/Backend/EcLineales/biseccion.dart';
-import 'package:analisis_numerico/Backend/EcLineales/incremental.dart';
+import 'package:analisis_numerico/Backend/EcLineales/ReglaFalsa.dart';
 import 'package:analisis_numerico/Commons/funciones.dart';
 import 'package:flutter/material.dart';
 
 
-class BiseccionFront extends StatefulWidget {
+class ReglaFalsaFront extends StatefulWidget {
 
-  BiseccionFront({Key key}) : super(key: key);
+  ReglaFalsaFront({Key key}) : super(key: key);
   @override
-  _BiseccionFrontState createState() => _BiseccionFrontState();
+  _ReglaFalsaFrontState createState() => _ReglaFalsaFrontState();
 }
 
-class _BiseccionFrontState extends State<BiseccionFront> {
+class _ReglaFalsaFrontState extends State<ReglaFalsaFront> {
 
   //Punto Inicial, Delta, Iteraciones
   double xo = 0, x1 = 0, tolerancia = 0;
@@ -27,7 +26,7 @@ class _BiseccionFrontState extends State<BiseccionFront> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Bisection Method'),
+        title: Text('Fake Rule Method'),
       ),
       body: Center(
           child: Container(
@@ -47,7 +46,7 @@ class _BiseccionFrontState extends State<BiseccionFront> {
   Widget Tabla(){
     if(evaluate){
       evaluate = false;
-      BisectionAlgorithm evaluator = new BisectionAlgorithm();
+      ReglaFalsaAlgoritmo evaluator = new ReglaFalsaAlgoritmo();
       String mensaje = evaluator.evaluateAlgorithm(x0: xo, x1: x1, iteraciones: iteraciones, tolerancia: tolerancia);
       print(mensaje);
       setState(() {
@@ -117,9 +116,9 @@ class _BiseccionFrontState extends State<BiseccionFront> {
                             ]
                         )).toList()
                     )
-                  ),
                 ),
               ),
+            ),
           ],
         );
       }
@@ -149,7 +148,7 @@ class _BiseccionFrontState extends State<BiseccionFront> {
                     }else if(index == 1){
                       x1 = double.parse(text);
                     }else if(index == 2){
-                      tolerancia = 1*(pow(10, -int.parse(text)));
+                      tolerancia = pow(10, -int.parse(text));
                       print(tolerancia);
                     }else if(index == 3){
                       iteraciones = int.parse(text);

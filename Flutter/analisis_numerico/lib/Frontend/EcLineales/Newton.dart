@@ -1,22 +1,21 @@
 import 'dart:math';
 
-import 'package:analisis_numerico/Backend/EcLineales/biseccion.dart';
-import 'package:analisis_numerico/Backend/EcLineales/incremental.dart';
+import 'package:analisis_numerico/Backend/EcLineales/Newton.dart';
 import 'package:analisis_numerico/Commons/funciones.dart';
 import 'package:flutter/material.dart';
 
 
-class BiseccionFront extends StatefulWidget {
+class NewtonFront extends StatefulWidget {
 
-  BiseccionFront({Key key}) : super(key: key);
+  NewtonFront({Key key}) : super(key: key);
   @override
-  _BiseccionFrontState createState() => _BiseccionFrontState();
+  _NewtonFrontState createState() => _NewtonFrontState();
 }
 
-class _BiseccionFrontState extends State<BiseccionFront> {
+class _NewtonFrontState extends State<NewtonFront> {
 
   //Punto Inicial, Delta, Iteraciones
-  double xo = 0, x1 = 0, tolerancia = 0;
+  double xo = 0, tolerancia = 0;
   int iteraciones = 0;
   bool evaluate = false;
   String response = "";
@@ -27,7 +26,7 @@ class _BiseccionFrontState extends State<BiseccionFront> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Bisection Method'),
+        title: Text('Newton Method'),
       ),
       body: Center(
           child: Container(
@@ -47,13 +46,13 @@ class _BiseccionFrontState extends State<BiseccionFront> {
   Widget Tabla(){
     if(evaluate){
       evaluate = false;
-      BisectionAlgorithm evaluator = new BisectionAlgorithm();
-      String mensaje = evaluator.evaluateAlgorithm(x0: xo, x1: x1, iteraciones: iteraciones, tolerancia: tolerancia);
+      NewtonAlgorithm evaluator = new NewtonAlgorithm();
+      String mensaje = evaluator.evaluateAlgorithm(x0: xo, tolerancia: tolerancia, iteraciones: iteraciones);
       print(mensaje);
       setState(() {
         response = mensaje;
       });
-      //showAlert(title:"Incremental Algorithm", msg:"The operation ended with: \n $mensaje", context: context);
+      //showAlert(title:"Newton Algorithm", msg:"The operation ended with: \n $mensaje", context: context);
       Map tabla = evaluator.getTabla;
       if(tabla != null){
         return Column(
@@ -73,19 +72,11 @@ class _BiseccionFrontState extends State<BiseccionFront> {
                             numeric: true,
                           ),
                           DataColumn(
-                            label: Text("X0"),
+                            label: Text("X"),
                             numeric: true,
                           ),
                           DataColumn(
-                            label: Text("X1"),
-                            numeric: true,
-                          ),
-                          DataColumn(
-                            label: Text("Xm"),
-                            numeric: true,
-                          ),
-                          DataColumn(
-                            label: Text("f(m)"),
+                            label: Text("f(x)"),
                             numeric: true,
                           ),
                           DataColumn(
@@ -107,19 +98,12 @@ class _BiseccionFrontState extends State<BiseccionFront> {
                               DataCell(
                                   Text("${tabla[it][2]}")
                               ),
-                              DataCell(
-                                  Text("${tabla[it][3]}")
-                              ),
-                              DataCell(
-                                  Text("${tabla[it][4]}")
-                              ),
-
                             ]
                         )).toList()
                     )
-                  ),
                 ),
               ),
+            ),
           ],
         );
       }
@@ -131,27 +115,25 @@ class _BiseccionFrontState extends State<BiseccionFront> {
   }
 
   Widget inputFields(){
-    final List<String> entries = <String>['Xo', 'X1', "Cifras",'Iteraciones'];
+    final List<String> entries = <String>['Xo', 'Tolerancia', 'Iteraciones'];
     return Center(
         child:GridView.count(
           childAspectRatio: 2.3,
           padding: new EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
-          crossAxisCount: 5,
-          children: List.generate(5, (index) {
-            if(index<4){
+          crossAxisCount: 4,
+          children: List.generate(4, (index) {
+            if(index<3){
               return TextField(
                 onChanged: (text){
                   setState(() {
                     if(index==0){
                       xo = double.parse(text);
                     }else if(index == 1){
-                      x1 = double.parse(text);
-                    }else if(index == 2){
                       tolerancia = 1*(pow(10, -int.parse(text)));
                       print(tolerancia);
-                    }else if(index == 3){
+                    }else if(index == 2){
                       iteraciones = int.parse(text);
                     }
                   });

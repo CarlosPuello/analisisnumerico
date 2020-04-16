@@ -1,4 +1,4 @@
-import 'package:analisis_numerico/Backend/incremental.dart';
+import 'package:analisis_numerico/Backend/EcLineales/incremental.dart';
 import 'package:analisis_numerico/Commons/funciones.dart';
 import 'package:flutter/material.dart';
 

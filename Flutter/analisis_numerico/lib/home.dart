@@ -28,7 +28,7 @@ class _AnalisisHomeState extends State<AnalisisHome> {
   }
 
   Widget sectionList(){
-    final List<String> entries = <String>['Ecuaciones Lineales', 'Ecuaciones','Interpolacion','Diferenciacion'];
+    final List<String> entries = <String>['Linear Equations', 'Equations','Interpolation','Differentiation'];
     final List<Widget> pages = <Widget>[EcuacionesLineales(), Ecuaciones(), Interpolacion(), Diferenciales()];
     //final List<int> colorCodes = <int>[600, 500, 100];
     return ListView.separated(
