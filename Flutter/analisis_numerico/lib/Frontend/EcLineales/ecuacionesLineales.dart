@@ -1,35 +1,35 @@
-import 'package:analisis_numerico/Frontend/Diferenciales.dart';
-import 'package:analisis_numerico/Frontend/Ecuaciones.dart';
-import 'package:analisis_numerico/Frontend/Interpolacion.dart';
-import 'package:analisis_numerico/Frontend/EcLineales/ecuacionesLineales.dart';
+import 'package:analisis_numerico/Frontend/EcLineales/FixedPoint.dart';
+import 'package:analisis_numerico/Frontend/EcLineales/Newton.dart';
+import 'package:analisis_numerico/Frontend/EcLineales/ReglaFalsa.dart';
+import 'package:analisis_numerico/Frontend/EcLineales/biseccion.dart';
 import 'package:analisis_numerico/Frontend/EcLineales/incremental.dart';
 import 'package:flutter/material.dart';
 
 
-class AnalisisHome extends StatefulWidget {
+class EcuacionesLineales extends StatefulWidget {
 
-  AnalisisHome({Key key}) : super(key: key);
+  EcuacionesLineales({Key key}) : super(key: key);
   @override
-  _AnalisisHomeState createState() => _AnalisisHomeState();
+  _EcuacionesLinealesHomeState createState() => _EcuacionesLinealesHomeState();
 }
 
-class _AnalisisHomeState extends State<AnalisisHome> {
+class _EcuacionesLinealesHomeState extends State<EcuacionesLineales> {
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Análisis Numérico'),
+        title: Text('Linear Equations'),
       ),
       body: Center(
-        child: sectionList()
+          child: buttonsList()
       ),
     );
   }
 
-  Widget sectionList(){
-    final List<String> entries = <String>['Linear Equations', 'Equations','Interpolation','Differentiation'];
-    final List<Widget> pages = <Widget>[EcuacionesLineales(), Ecuaciones(), Interpolacion(), Diferenciales()];
+  Widget buttonsList(){
+    final List<String> entries = <String>['Incremental', 'Bisection','Fake Rule','Fixed Point','Newton'];
+    final List<Widget> pages = <Widget>[IncrementalFront(), BiseccionFront(), ReglaFalsaFront(), FixedPointFront(), NewtonFront()];
     //final List<int> colorCodes = <int>[600, 500, 100];
     return ListView.separated(
       padding: const EdgeInsets.all(8),

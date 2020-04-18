@@ -1,19 +1,21 @@
-import 'package:analisis_numerico/Backend/incremental.dart';
+import 'dart:math';
+
+import 'package:analisis_numerico/Backend/EcLineales/FixedPoint.dart';
 import 'package:analisis_numerico/Commons/funciones.dart';
 import 'package:flutter/material.dart';
 
 
-class IncrementalFront extends StatefulWidget {
+class FixedPointFront extends StatefulWidget {
 
-  IncrementalFront({Key key}) : super(key: key);
+  FixedPointFront({Key key}) : super(key: key);
   @override
-  _IncrementalFrontState createState() => _IncrementalFrontState();
+  _FixedPointFrontState createState() => _FixedPointFrontState();
 }
 
-class _IncrementalFrontState extends State<IncrementalFront> {
+class _FixedPointFrontState extends State<FixedPointFront> {
 
   //Punto Inicial, Delta, Iteraciones
-  double xo = 0, delta = 0;
+  double xo = 0, tolerancia = 0;
   int iteraciones = 0;
   bool evaluate = false;
   String response = "";
@@ -24,7 +26,7 @@ class _IncrementalFrontState extends State<IncrementalFront> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Incremental Method'),
+        title: Text('Fixed Point Method'),
       ),
       body: Center(
           child: Container(
@@ -44,49 +46,63 @@ class _IncrementalFrontState extends State<IncrementalFront> {
   Widget Tabla(){
     if(evaluate){
       evaluate = false;
-      IncrementalAlgorithm evaluator = new IncrementalAlgorithm();
-      String mensaje = evaluator.evaluateAlgorithm(x0: xo, delta: delta, iteraciones: iteraciones);
+      FixedPointAlgorithm evaluator = new FixedPointAlgorithm();
+      String mensaje = evaluator.evaluateAlgorithm(x0: xo, tolerancia: tolerancia, iteraciones: iteraciones);
       print(mensaje);
       setState(() {
         response = mensaje;
       });
-      //showAlert(title:"Incremental Algorithm", msg:"The operation ended with: \n $mensaje", context: context);
+      //showAlert(title:"FixedPoint Algorithm", msg:"The operation ended with: \n $mensaje", context: context);
       Map tabla = evaluator.getTabla;
       if(tabla != null){
         return Column(
           children: <Widget>[
-              Padding(padding: new EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 0.0),),
-              Text(mensaje, style: TextStyle(fontSize: 15),),
-              DataTable(
-              horizontalMargin: 0,
-              columns: <DataColumn>[
-                DataColumn(
-                  label: Text("#"),
-                  numeric: true,
-                ),
-                DataColumn(
-                  label: Text("x"),
-                  numeric: true,
-
-                ),
-                DataColumn(
-                  label: Text("f(x)"),
-                  numeric: true,
-                )
-              ],
-              rows: tabla.keys.map((it) => DataRow(
-                  cells: [
-                    DataCell(
-                        Text("$it")
-                    ),
-                    DataCell(
-                        Text("${tabla[it][0]}")
-                    ),
-                    DataCell(
-                        Text("${tabla[it][1]}")
+            Padding(padding: new EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 0.0),),
+            Text(mensaje, style: TextStyle(fontSize: 15),),
+            SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: (
+                    DataTable(
+                        columnSpacing: 10,
+                        columns: <DataColumn>[
+                          DataColumn(
+                            label: Text("#"),
+                            numeric: true,
+                          ),
+                          DataColumn(
+                            label: Text("X"),
+                            numeric: true,
+                          ),
+                          DataColumn(
+                            label: Text("f(x)"),
+                            numeric: true,
+                          ),
+                          DataColumn(
+                            label: Text("Error"),
+                            numeric: true,
+                          ),
+                        ],
+                        rows: tabla.keys.map((it) => DataRow(
+                            cells: [
+                              DataCell(
+                                  Text("$it")
+                              ),
+                              DataCell(
+                                  Text("${tabla[it][0]}")
+                              ),
+                              DataCell(
+                                  Text("${tabla[it][1]}")
+                              ),
+                              DataCell(
+                                  Text("${tabla[it][2]}")
+                              ),
+                            ]
+                        )).toList()
                     )
-                  ]
-              )).toList()
+                ),
+              ),
             ),
           ],
         );
@@ -99,7 +115,7 @@ class _IncrementalFrontState extends State<IncrementalFront> {
   }
 
   Widget inputFields(){
-    final List<String> entries = <String>['Xo', 'Delta', 'Iteraciones'];
+    final List<String> entries = <String>['Xo', 'Tolerancia', 'Iteraciones'];
     return Center(
         child:GridView.count(
           childAspectRatio: 2.3,
@@ -115,7 +131,8 @@ class _IncrementalFrontState extends State<IncrementalFront> {
                     if(index==0){
                       xo = double.parse(text);
                     }else if(index == 1){
-                      delta = double.parse(text);
+                      tolerancia = 1*(pow(10, -int.parse(text)));
+                      print(tolerancia);
                     }else if(index == 2){
                       iteraciones = int.parse(text);
                     }
@@ -153,7 +170,7 @@ class _IncrementalFrontState extends State<IncrementalFront> {
               );
             }
           }),
-      )
+        )
     );
   }
 

@@ -1,4 +1,3 @@
-import 'dart:collection';
 
 import 'package:analisis_numerico/Commons/funciones.dart';
 
@@ -36,7 +35,7 @@ class IncrementalAlgorithm{
       }else if(y1 == 0){
         return "$x1 es una raiz";
       }else{
-        return "Fracaso en $iteraciones iteraciones";
+        return "Fracaso en $contador iteraciones";
       }
     }
   }
