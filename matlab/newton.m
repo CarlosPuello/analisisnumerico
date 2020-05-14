@@ -49,6 +49,6 @@ else
     end
 end
 fprintf("\n");
-VarNames = {'n', 'xn', 'fxn','f'(xn)','error'};
+VarNames = {'n', 'xn', 'fxn','f´(xn)','error'};
 disp([VarNames;resultado]);
 fprintf("\n");

@@ -2,6 +2,7 @@ clear
 clear all
 clc
 
+format long;
 func = input('Ingrese la funcion f: ', 's');
 f = inline(func);
 
@@ -33,18 +34,18 @@ else
                     xn = x1-((y1*(x1-x0))/(y1-y0));
                     yn = f(xn);
                     error = abs(xn-x1);
-                    resultado = [resultado; {cont,xn,yn,error}];
+                    resultado = [resultado; {cont,num2str(xn, '%4.20f' ),yn,error}];
                     y0 = y1;
                     x0 = x1;
                     y1 = yn;
                     x1 = xn;
                     cont = cont + 1;
                 end
-
+                
                 if y1 == 0 
-                    fprintf('\n %g es una raiz.', x1);
+                    fprintf('\n %g es una raiz.', numdisp);
                 elseif error < tol
-                    fprintf('\n %g es una raiz aproximada.',x1);
+                    fprintf('\n %g es una raiz aproximada.',numdisp);
                 else
                     fprintf('\n Fracaso en %g iteraciones.',iter);
                 end
