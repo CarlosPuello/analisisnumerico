@@ -1,10 +1,7 @@
 MatA = [[34 -5 6 12];[-9 43 21 -8];[-12 4 -75 22];[7 5 -13 65]];
 MatB = [37;123;16;9];
-inds = 1:4;
-disp(inds);
-disp()
-disp(Gauss(MatA,MatB,4));
 
+disp(Gauss(MatA,MatB,4));
 
 function Mat = Gauss(A,b,n)
     Mat = [A b];

@@ -1,9 +1,10 @@
 MatA = [[34 -5 6 12];[-9 43 21 -8];[-12 4 -75 22];[7 5 -13 65]];
 MatB = [37;123;16;9];
 Mat = [MatA MatB];
+
 %Eliminacion simple
-disp(Mat);
-n = 4;
+n = 8;
+
 for k = 1:(n-1)
     for i = (k+1):n
         m = Mat(i,k)/Mat(k,k);
@@ -24,5 +25,6 @@ for i = n-1:1
     end
     x(i)= (Mat(i,n+1)-s)/Mat(i,i);
 end
+disp("res");
 disp(x);
 %Fin Sust Regresiva
