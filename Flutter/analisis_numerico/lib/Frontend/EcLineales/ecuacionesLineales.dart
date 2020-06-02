@@ -19,7 +19,7 @@ class _EcuacionesLinealesHomeState extends State<EcuacionesLineales> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Linear Equations'),
+        title: Text('Non-Linear Equations'),
       ),
       body: Center(
           child: buttonsList()

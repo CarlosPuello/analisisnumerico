@@ -48,7 +48,7 @@ Widget uno(){
 
 Widget dos(){
   return TeXView(
-    teXHTML: r"""$$y = {e^{-x^2+7} - x * ln(x^4+5)- x^2 + 20}$$<br> """,
+    teXHTML: r"""$$y =  {x * ln(x)- x }$$<br> """,
     renderingEngine: RenderingEngine.Katex,  // Katex for fast render and MathJax for quality render.
     onRenderFinished: (height) {
       print("Widget Height is : $height");
@@ -62,8 +62,9 @@ Widget dos(){
 double f(double point){
   Parser p = Parser();
   //Expression exp = p.parse('e^(x+5)-ln(x^2+6)+sin(x)^2');
-  Expression exp = p.parse('(x^3)+((4)*(x^2))-10');
+  //Expression exp = p.parse('(x^3)+((4)*(x^2))-10');
   //Expression exp = p.parse('e^(-(x^2)+7)-x*ln(x^4+5)-x^2+20');
+  Expression exp = p.parse('x*ln(x)-x');
   Variable x = Variable('x');
   ContextModel cm = ContextModel()
     ..bindVariable(x, Number(point));
@@ -76,8 +77,9 @@ double f(double point){
 double dif(double point){
   Parser p = Parser();
   //Expression exp = p.parse('e^(x+5)-ln(x^2+6)+sin(x)^2');
-  Expression exp = p.parse('(3*x^2)+(8*x)');
+  //Expression exp = p.parse('(3*x^2)+(8*x)');
   //Expression exp = p.parse('e^(-(x^2)+7)-x*ln(x^4+5)-x^2+20');
+  Expression exp = p.parse('ln(x)');
   Variable x = Variable('x');
   ContextModel cm = ContextModel()
     ..bindVariable(x, Number(point));
@@ -90,8 +92,8 @@ double dif(double point){
 double g(double point){
   Parser p = Parser();
   //Expression exp = p.parse('e^(x+5)-ln(x^2+6)+sin(x)^2');
-  Expression exp = p.parse('(e^(-(x^2)+7)-x*ln(x^4+5)+20)/x');
-
+  //Expression exp = p.parse('(e^(-(x^2)+7)-x*ln(x^4+5)+20)/x');
+  Expression exp = p.parse('x*ln(x)');
   Variable x = Variable('x');
   ContextModel cm = ContextModel()
     ..bindVariable(x, Number(point));

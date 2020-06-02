@@ -1,5 +1,5 @@
 import 'package:analisis_numerico/Frontend/Diferenciales.dart';
-import 'package:analisis_numerico/Frontend/Ecuaciones.dart';
+import 'file:///C:/Users/andre/Documents/Proyectos/analisisnumerico/Flutter/analisis_numerico/lib/Frontend/Ecuaciones/Ecuaciones.dart';
 import 'package:analisis_numerico/Frontend/Interpolacion.dart';
 import 'package:analisis_numerico/Frontend/EcLineales/ecuacionesLineales.dart';
 import 'package:analisis_numerico/Frontend/EcLineales/incremental.dart';
@@ -28,7 +28,7 @@ class _AnalisisHomeState extends State<AnalisisHome> {
   }
 
   Widget sectionList(){
-    final List<String> entries = <String>['Linear Equations', 'Equations','Interpolation','Differentiation'];
+    final List<String> entries = <String>['Non-Linear Equations', 'Equations','Interpolation','Differentiation & Integration'];
     final List<Widget> pages = <Widget>[EcuacionesLineales(), Ecuaciones(), Interpolacion(), Diferenciales()];
     //final List<int> colorCodes = <int>[600, 500, 100];
     return ListView.separated(
