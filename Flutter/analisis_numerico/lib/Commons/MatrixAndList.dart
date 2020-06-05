@@ -107,18 +107,55 @@ Widget showVector({List lista}){
   );
 }
 
-List matrizIdentidad(n){
+List Identidad(n){
   List filas = new List(n);
   for(int i = 0 ; i < n ; i++){
     List columna = new List(n);
     for(int j = 0 ; j < n ; j++){
       columna[j] = i==j ? 1 : 0;
     }
-    filas.add(columna);
+    filas[i] = columna;
   }
   return filas;
 }
 
 List clone(List lista){
   return json.decode(json.encode(lista));
+}
+
+List quitarB(List lista,int n){
+  print("#############  $n  ##############");
+  List matrices = new List();
+  List matrizA = new List();
+  List matrizB = new List();
+  List columnaB = new List();
+  for(int i = 0 ; i < n ; i++){
+    List columnaA = new List(n);
+    for(int j = 0 ; j <= n ; j++){
+      if(i < n && j < n){
+        columnaA[j] = lista[i][j];
+      }else{
+        columnaB.add(lista[i][j]);
+      }
+    }
+    matrizA.add(columnaA);
+  }
+  matrizB.add(columnaB);
+  matrices.add(matrizA);
+  matrices.add(matrizB);
+  return matrices;
+}
+
+List Concatenar(List lista1, List lista2){
+  print("Concatenar ${lista1} ${lista2}");
+  List matriz = new List(lista1.length);
+  for(int i = 0 ; i < lista1.length; i++){
+    List columna = new List(lista1.length + 1);
+    for(int j = 0 ; j < lista1.length ; j++){
+      columna[j] = lista1[i][j];
+    }
+    columna[columna.length-1] = lista2[0][i];
+    matriz[i] = columna;
+  }
+  return matriz;
 }

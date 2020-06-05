@@ -4,7 +4,6 @@ class SustRegresiva{
     double s = 0;
     List soluciones = new List(n);
     soluciones[n-1] = matriz[n-1][n] / matriz[n-1][n-1];
-    print(matriz);
     for(int i = n-2; i >= 0; i--){
       s=0;
       for(int j = i+1; j<n; j++){

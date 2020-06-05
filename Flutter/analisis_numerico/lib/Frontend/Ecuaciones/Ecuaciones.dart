@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:analisis_numerico/Frontend/Ecuaciones/ElimGaussSimpFront.dart';
 import 'package:analisis_numerico/Frontend/Ecuaciones/ElimGaussPivoteoFront.dart';
 import 'package:flutter/material.dart';
-
+import 'package:analisis_numerico/Frontend/Ecuaciones/Factorizaciones.dart';
 
 class Ecuaciones extends StatefulWidget {
 
@@ -51,11 +51,11 @@ class _EcuacionesHomeState extends State<Ecuaciones> {
             createButtons("Eliminacion Guassiana Simple", ElimGaussSimpFront(matriz: matriz)),
             createButtons("Pivoteo Parcial", gaussPivoteoFront(matriz:matriz,opcion: true, titulo: "Partial Pivoting",)),
             createButtons("Pivoteo Total", gaussPivoteoFront(matriz:matriz,opcion: false, titulo: "Total Pivoting",)),
-            createButtons("Cholesky", Container()),
-            createButtons("Crout", Container()),
-            createButtons("Dootlite", Container()),
-            createButtons("Gauss Seidel", Container()),
+            createButtons("Cholesky", FactorizacionesFront(matriz: matriz, titulo: "Cholesky", opcion: 0,)),
+            createButtons("Crout", FactorizacionesFront(matriz: matriz, titulo: "Crout", opcion: 1)),
+            createButtons("Doolittle", FactorizacionesFront(matriz: matriz, titulo: "Doolittle", opcion: 2)),
             createButtons("Jacobi", Container()),
+            createButtons("Gauss Seidel", Container()),
           ],
         ),
       );

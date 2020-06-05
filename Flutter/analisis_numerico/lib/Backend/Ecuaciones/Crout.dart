@@ -1,6 +1,6 @@
 import 'package:analisis_numerico/Commons/MatrixAndList.dart';
 import 'dart:math';
-class Cholesky{
+class Crout{
   static String _mensaje = "";
   static String get mensaje => _mensaje;
   static bool _posible = true;
@@ -11,28 +11,25 @@ class Cholesky{
     print(matriz);
     List separar = quitarB(matriz,n);
     List A = separar[0];
+    print(A);
+    print(separar[1]);
     List U = Identidad(n);
     List L = Identidad(n);
     for(int k = 0 ; k < n ; k++){
       double suma = 0;
-      for(int s = 0 ; s < k - 2; k++){
-        suma = suma + (L[k][s] * U[s][k]);
+      for(int i = k ; i < n; i++){
+        suma = 0;
+        for(int s = 0 ; s < k-2; k++){
+          suma = suma + (L[i][s] * U[s][k]);
+        }
+        L[i][k] = A[i][k] - suma;
       }
-      L[k][k] = sqrt(A[k][k] - suma);
-      U[k][k] = L[k][k];
-      for(int j = k+1 ; j < n; j++){
+      for(int i = k+1 ; i < n; i++){
         suma = 0;
         for(int s = 0 ; s < k - 2; k++){
-          suma = suma + (L[k][s] * U[s][j]);
+          suma = suma + (L[k][s] * U[s][i]);
         }
-        U[k][j] = (A[k][j] - suma) /L[k][k];
-      }
-      for(int j = k+1 ; j < n; j++){
-        suma = 0;
-        for(int s = 0 ; s < k - 2; k++){
-          suma = suma + (L[j][s] * U[s][k]);
-        }
-        L[j][k] = (A[j][k] - suma) /L[k][k];
+        L[k][i] = (A[k][i] - suma) /L[k][k];
       }
     }
     List retorno = new List();
