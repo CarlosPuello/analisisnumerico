@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 Widget showMatrix({List matriz}){
@@ -32,7 +34,7 @@ Widget showMatrix({List matriz}){
   );
 }
 
-Widget showVector({List lista}){
+Widget showSolution({List lista,List indices}){
   List<TableRow> mgrafica = new List(2);
   List<Widget> gcolumnas = new List(lista.length);
   List<Widget> variables = new List(lista.length);
@@ -48,7 +50,7 @@ Widget showVector({List lista}){
       textAlign: TextAlign.center,
       enabled: false,
       decoration: InputDecoration(
-        hintText: "X${i+1}",
+        hintText: indices.length != 0 ? "${indices[i]}" : "X${i+1}",
       ),
     );
   }
@@ -73,4 +75,50 @@ Widget showVector({List lista}){
       ),
     ],
   );
+}
+
+Widget showVector({List lista}){
+  List<Widget> gcolumnas = new List(lista.length);
+  for(int i = 0; i<lista.length;i++) {
+    gcolumnas[i] = new TextField(
+      textAlign: TextAlign.center,
+      enabled: false,
+      decoration: InputDecoration(
+        hintText: "${lista[i]}",
+      ),
+    );
+  }
+  return Column(
+    children: <Widget>[
+      Padding(padding: new EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),),
+      SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Table(
+            children: [
+              TableRow(
+                children: gcolumnas
+              )
+            ],
+            defaultColumnWidth: FlexColumnWidth(1),
+            border: TableBorder.all(),
+          )
+      ),
+    ],
+  );
+}
+
+List matrizIdentidad(n){
+  List filas = new List(n);
+  for(int i = 0 ; i < n ; i++){
+    List columna = new List(n);
+    for(int j = 0 ; j < n ; j++){
+      columna[j] = i==j ? 1 : 0;
+    }
+    filas.add(columna);
+  }
+  return filas;
+}
+
+List clone(List lista){
+  return json.decode(json.encode(lista));
 }

@@ -1,6 +1,8 @@
 
+import 'dart:convert';
+
 import 'package:analisis_numerico/Frontend/Ecuaciones/ElimGaussSimpFront.dart';
-import 'package:analisis_numerico/Frontend/Ecuaciones/gaussPivParcialFront.dart';
+import 'package:analisis_numerico/Frontend/Ecuaciones/ElimGaussPivoteoFront.dart';
 import 'package:flutter/material.dart';
 
 
@@ -14,7 +16,7 @@ class Ecuaciones extends StatefulWidget {
 class _EcuacionesHomeState extends State<Ecuaciones> {
   List matriz = new List(0);
   bool edit = false, generar = false, evaluar = false, agregar = false;
-  int filas = 0, columnas = 0;
+  int variables = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,13 +49,13 @@ class _EcuacionesHomeState extends State<Ecuaciones> {
             Text("Seleccione el metodo para solucionar el sistema", style: TextStyle(fontSize: 15),),
             Padding(padding: new EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),),
             createButtons("Eliminacion Guassiana Simple", ElimGaussSimpFront(matriz: matriz)),
-            createButtons("Pivoteo Parcial", gaussPivParcialFront(matriz:matriz)),
-            createButtons("Pivoteo Total", gaussPivParcialFront(matriz:matriz)),
-            createButtons("Cholesky", gaussPivParcialFront(matriz:matriz)),
-            createButtons("Crout", gaussPivParcialFront(matriz:matriz)),
-            createButtons("Dootlite", gaussPivParcialFront(matriz:matriz)),
-            createButtons("Gauss Seidel", gaussPivParcialFront(matriz:matriz)),
-            createButtons("Jacobi", gaussPivParcialFront(matriz:matriz)),
+            createButtons("Pivoteo Parcial", gaussPivoteoFront(matriz:matriz,opcion: true, titulo: "Partial Pivoting",)),
+            createButtons("Pivoteo Total", gaussPivoteoFront(matriz:matriz,opcion: false, titulo: "Total Pivoting",)),
+            createButtons("Cholesky", Container()),
+            createButtons("Crout", Container()),
+            createButtons("Dootlite", Container()),
+            createButtons("Gauss Seidel", Container()),
+            createButtons("Jacobi", Container()),
           ],
         ),
       );
@@ -73,6 +75,7 @@ class _EcuacionesHomeState extends State<Ecuaciones> {
       ),
       child: GestureDetector(
           onTap: (){
+            evaluar = true;
             print("$nombre clicked");
             Navigator.push(
               context,
@@ -93,21 +96,21 @@ class _EcuacionesHomeState extends State<Ecuaciones> {
 
   Widget crearMatriz(){
     if(generar){
-      List<TableRow> mgrafica = new List(filas);
-      List matriznum = new List(filas);
-      for(int j = 0; j<filas;j++){
-        List mcolumnas = new List(columnas);
-        List<Widget> gcolumnas = new List(columnas);
-        for(int i = 0; i<columnas;i++){
+      List<TableRow> mgrafica = new List(variables);
+      List matriznum = new List(variables);
+      for(int i = 0; i<variables;i++){
+        List mcolumnas = new List(variables+1);
+        List<Widget> gcolumnas = new List(variables+1);
+        for(int j = 0; j<variables+1;j++){
           if(agregar&&edit){
-            mcolumnas[i] = 0;
+            mcolumnas[j] = 0;
             try{
-              mcolumnas[i] = matriz[j][i];
+              mcolumnas[j] = matriz[i][j];
             }catch(e) {}
           }else{
-            mcolumnas[i] = 0;
+            mcolumnas[j] = 0;
           }
-          gcolumnas[i] = new TextField(
+          gcolumnas[j] = new TextField(
             keyboardType: TextInputType.number,
             textAlign: TextAlign.center,
             decoration: InputDecoration(
@@ -116,13 +119,13 @@ class _EcuacionesHomeState extends State<Ecuaciones> {
             onChanged: (text){
               setState(() {
                 edit = true;
-                matriz[j][i] = double.parse(text);
+                matriz[i][j] = double.parse(text);
               });
             },
           );
         }
-        matriznum[j] = mcolumnas;
-        mgrafica[j] = new TableRow(
+        matriznum[i] = mcolumnas;
+        mgrafica[i] = new TableRow(
             children: gcolumnas
         );
       }
@@ -154,66 +157,57 @@ class _EcuacionesHomeState extends State<Ecuaciones> {
 
   }
   Widget inputFields(){
-    final List<String> entries = <String>['Filas', 'Columnas'];
     return Column(
       children: <Widget>[
         (!generar) ? Text("Ingrese las dimension de la matriz", style: TextStyle(fontSize: 20)) : Container(),
         Center(
         child:GridView.count(
-          childAspectRatio: 2.3,
+          childAspectRatio: 5,
           padding: new EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
-          crossAxisCount: 4,
-          children: List.generate(3, (index) {
-            if(index<2){
-              return TextField(
-                keyboardType: TextInputType.number,
-                onChanged: (text){
-                  setState(() {
-                    if(index==0){
-                      filas = int.parse(text);
-                      agregar = true;
-                    }else if(index == 1){
-                      columnas = int.parse(text);
-                      agregar = true;
-                    }
-                  });
-                },
-                decoration: InputDecoration(
-                    hintText: entries[index]
+          crossAxisCount: 2,
+          children: <Widget>[
+            TextField(
+              keyboardType: TextInputType.number,
+              onChanged: (text){
+                setState(() {
+                  variables = int.parse(text);
+                  agregar = true;
+                });
+              },
+              decoration: InputDecoration(
+                hintText: 'Numero de Variables'
+              ),
+            ),
+            GestureDetector(
+              onTap: (){
+                setState(() {
+                generar = true;
+              });},
+              child:Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(width: 1.0),
+                  ),
                 ),
-              );
-            }else{
-              return GestureDetector(
-                  onTap: (){
-                    setState(() {
-                      generar = true;
-                    });},
+                child:Center(
                   child:Container(
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(width: 1.0),
-                        ),
+                    child: Text(
+                      "Generar",
+                      style: TextStyle(
+                        fontSize: 18,
                       ),
-                      child:Center(
-                          child:Container(
-                            child: Text(
-                              "Generar",
-                              style: TextStyle(
-                                fontSize: 18,
-                              ),
-                            ),
-                          )
-                      )
+                    ),
                   )
-              );
-            }
-          }),
-        )
-        )
-      ],
+                )
+              )
+            ),
+          ]
+          ),
+        )]
     );
+
   }
 
 

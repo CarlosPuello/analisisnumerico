@@ -1,3 +1,4 @@
+import 'package:analisis_numerico/Commons/funciones.dart';
 import 'package:analisis_numerico/Frontend/EcLineales/FixedPoint.dart';
 import 'package:analisis_numerico/Frontend/EcLineales/Newton.dart';
 import 'package:analisis_numerico/Frontend/EcLineales/ReglaFalsa.dart';
@@ -15,6 +16,7 @@ class EcuacionesLineales extends StatefulWidget {
 
 class _EcuacionesLinealesHomeState extends State<EcuacionesLineales> {
 
+  bool isFx = false, isGx = false, isFfx = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,40 +24,123 @@ class _EcuacionesLinealesHomeState extends State<EcuacionesLineales> {
         title: Text('Non-Linear Equations'),
       ),
       body: Center(
-          child: buttonsList()
+          child: ListView(
+            children: <Widget>[
+              Padding(padding: new EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),),
+              inputFields(),
+              Padding(padding: new EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),),
+              buttonsList()
+            ],
+          )
       ),
     );
   }
 
   Widget buttonsList(){
-    final List<String> entries = <String>['Incremental', 'Bisection','Fake Rule','Fixed Point','Newton'];
-    final List<Widget> pages = <Widget>[IncrementalFront(), BiseccionFront(), ReglaFalsaFront(), FixedPointFront(), NewtonFront()];
-    //final List<int> colorCodes = <int>[600, 500, 100];
-    return ListView.separated(
-      padding: const EdgeInsets.all(8),
-      itemCount: entries.length,
-      itemBuilder: (context, int index){
-        return GestureDetector(
-            onTap: (){
-              print("${entries[index]} clicked");
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => pages[index]),
-              );
-            },
-            child: new Container(
-              padding: new EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 20.0),
-              child: Text(
-                entries[index],
-                style: TextStyle(
-                  fontSize: 20,
-                ),
+    return Column(
+      children: <Widget>[
+        isFx ? createButtons("Incremental", IncrementalFront()) : Container(),
+        isFx ? createButtons("Bisection", BiseccionFront()) : Container(),
+        isFx ? createButtons("False Rule", ReglaFalsaFront()) : Container(),
+        isFx && isGx ? createButtons("Fixed Point", FixedPointFront()) : Container(),
+        isFx && isGx && isFfx ? createButtons("Newton", NewtonFront()) : Container(),
+      ],
+    );
+  }
+  Widget createButtons(String nombre, Widget Pagina){
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(color: Colors.black, width: 1.0),
+            bottom: BorderSide(color: Colors.black, width: 1.0),
+          ),
+
+      ),
+      child: GestureDetector(
+          onTap: (){
+            print("$nombre clicked");
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Pagina),
+            );},
+          child: new Container(
+            padding: new EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 20.0),
+            child: Text(
+              nombre,
+              style: TextStyle(
+                fontSize: 20,
               ),
-            )
-        );
-      },
-      separatorBuilder: (BuildContext context, int index) => const Divider(thickness: 1,),
+            ),
+          )
+      ),
     );
   }
 
+
+
+  Widget inputFields(){
+    final List<String> entries = <String>['Filas', 'Columnas'];
+    return Column(
+      children: <Widget>[
+        TextField(
+          onChanged: (text){
+            setState(() {
+              funciones.funcionf = text;
+            });
+          },
+          onEditingComplete: (){
+            setState(() {
+              if(funciones.funcionf != ""){
+                isFx = true;
+              }else{
+                isFx = false;
+              }
+            });
+          },
+          decoration: InputDecoration(
+              hintText: "Ingrese f(x)"
+          ),
+        ),
+        TextField(
+          onChanged: (text){
+            setState(() {
+              funciones.derivada = text;
+            });
+          },
+          onEditingComplete: (){
+            setState(() {
+              if(funciones.derivada != ""){
+                isFfx = true;
+              }else{
+                isFfx = false;
+              }
+            });
+          },
+          decoration: InputDecoration(
+              hintText: "Ingrese f'(x)"
+          ),
+        ),
+        TextField(
+          onChanged: (text){
+            setState(() {
+              funciones.funciong = text;
+            });
+          },
+          onEditingComplete: (){
+            setState(() {
+              if(funciones.funciong != ""){
+                isGx = true;
+              }else{
+                isGx = false;
+              }
+            });
+          },
+          decoration: InputDecoration(
+              hintText: "Ingrese g(x)"
+          ),
+        ),
+      ],
+    );
+  }
 }

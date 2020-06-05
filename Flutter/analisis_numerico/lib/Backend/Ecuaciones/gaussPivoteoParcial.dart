@@ -1,15 +1,13 @@
-class pivoteoParcial {
+class gaussPivoteoParcial{
   static String _mensaje = "";
-
   static String get mensaje => _mensaje;
   static bool _posible = true;
-
   static bool get isPossible => _posible;
 
   static List pivotear({List matriz, int n, int k}) {
     double pivote = matriz[k][k].abs();
     int filaPivote = k;
-    for (int i = k + 1; i < n; i++) {
+    for (int i = k ; i < n; i++) {
       double aux = matriz[i][k].abs();
       if (pivote < aux) {
         pivote = aux;

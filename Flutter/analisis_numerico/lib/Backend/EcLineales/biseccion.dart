@@ -7,8 +7,8 @@ class BisectionAlgorithm{
   Map get getTabla => tabla;
 
   String evaluateAlgorithm({double x0, double x1,int iteraciones, double tolerancia}){
-    double y0 = f(x0);
-    double y1 = f(x1);
+    double y0 = funciones.f(x0);
+    double y1 = funciones.f(x1);
     if(y0 == 0){
       return "$x0 es una raiz";
     }else if(y1 == 0){
@@ -19,7 +19,7 @@ class BisectionAlgorithm{
       return "Valor de iteraciones inapropiado";
     }else{
       double xm = (x0+x1)/2;
-      double ym = f(xm);
+      double ym = funciones.f(xm);
       int contador = 1;
       double E = tolerancia + 1;
       tabla[contador]=[x0,x1,xm,ym,E];
@@ -33,7 +33,7 @@ class BisectionAlgorithm{
         }
         double xmAnt = xm;
         xm = (x0+x1)/2;
-        ym = f(xm);
+        ym = funciones.f(xm);
         contador++;
         E = (xmAnt - xm).abs();
         tabla[contador]=[x0,x1,xm,ym,E];

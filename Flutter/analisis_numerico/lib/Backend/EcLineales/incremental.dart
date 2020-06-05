@@ -7,7 +7,7 @@ class IncrementalAlgorithm{
   Map get getTabla => tabla;
 
   String evaluateAlgorithm({double x0, int iteraciones, double delta}){
-    double y0 = f(x0);
+    double y0 = funciones.f(x0);
     if(y0 == 0){
       return "$x0 es una raiz";
     }else if(delta == 0){
@@ -18,13 +18,13 @@ class IncrementalAlgorithm{
       double x1, y1;
       int contador = 1;
       x1 = x0 + delta;
-      y1 = f(x1);
+      y1 = funciones.f(x1);
       tabla[contador]=[x0,y0];
       while(y0*y1 > 0 && contador < iteraciones){
         x0 = x1;
         y0 = y1;
         x1 = x0 + delta;
-        y1 = f(x1);
+        y1 = funciones.f(x1);
         contador++;
         tabla[contador]=[x0,y0];
       }

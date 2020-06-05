@@ -7,7 +7,7 @@ class FixedPointAlgorithm{
   Map get getTabla => tabla;
 
   String evaluateAlgorithm({double x0, int iteraciones, double tolerancia}){
-    double y0 = f(x0);
+    double y0 = funciones.f(x0);
     tabla[0]=[x0,y0,0];
     if(y0 == 0){
       return "$x0 es una raiz";
@@ -20,8 +20,8 @@ class FixedPointAlgorithm{
       int contador = 1;
       double E = tolerancia + 1;
       while(E > tolerancia && y0 != 0 && contador < iteraciones){
-        xn = g(x0);
-        y0 = f(xn);
+        xn = funciones.g(x0);
+        y0 = funciones.f(xn);
         E = (xn-x0).abs();
         x0 = xn;
         contador++;

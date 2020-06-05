@@ -33,7 +33,9 @@ class _BiseccionFrontState extends State<BiseccionFront> {
           child: Container(
             child: ListView(
               children: <Widget>[
-                functionLatex(),
+                Padding(padding: new EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),),
+                Text("f(x) = ${funciones.funcionf}"),
+                Padding(padding: new EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),),
                 inputFields(),
                 Padding(padding: new EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),),
                 Tabla()

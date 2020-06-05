@@ -32,7 +32,13 @@ class _NewtonFrontState extends State<NewtonFront> {
           child: Container(
             child: ListView(
               children: <Widget>[
-                functionLatex(),
+                Padding(padding: new EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),),
+                Text("f(x) = ${funciones.funcionf}"),
+                Padding(padding: new EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),),
+                Text("f'(x) = ${funciones.derivada}"),
+                Padding(padding: new EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),),
+                Text("g(x) = ${funciones.funciong}"),
+                Padding(padding: new EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),),
                 inputFields(),
                 Padding(padding: new EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),),
                 Tabla()

@@ -1,6 +1,8 @@
+import 'dart:convert';
+
 import 'package:analisis_numerico/Backend/Ecuaciones/ElimGaussSimp.dart';
 import 'package:analisis_numerico/Commons/SustRegresiva.dart';
-import 'package:analisis_numerico/Commons/showMatrix.dart';
+import 'package:analisis_numerico/Commons/MatrixAndList.dart';
 import 'package:flutter/material.dart';
 
 
@@ -15,8 +17,12 @@ class ElimGaussSimpFront extends StatefulWidget {
 }
 
 class _ElimGaussSimpFrontState extends State<ElimGaussSimpFront> {
-  List get getMatrix => widget.matriz;
-  List newMatrix = new List();
+  List matriz;
+  @override
+  void initState() {
+    matriz = json.decode(json.encode(widget.matriz));
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +34,7 @@ class _ElimGaussSimpFrontState extends State<ElimGaussSimpFront> {
             child: ListView(
               children: <Widget>[
                 Padding(padding: new EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),),
-                showMatrix(matriz: getMatrix),
+                showMatrix(matriz: matriz),
                 evaluateMatrix()
               ],
             ),
@@ -39,14 +45,14 @@ class _ElimGaussSimpFrontState extends State<ElimGaussSimpFront> {
 
   Widget evaluateMatrix(){
     ElimGaussSimple evaluator = new ElimGaussSimple();
-    bool response = evaluator.evaluateAlgorithm(matriz: getMatrix,n: (getMatrix[0].length)-1);
+    bool response = evaluator.evaluateAlgorithm(matriz: matriz,n: (matriz[0].length)-1);
     if(response){
       List solucion = SustRegresiva.resolverEcuaciones(matriz: evaluator.getResultado);
       return Column(
         children: <Widget>[
           Text(evaluator.getMensaje, style: TextStyle(fontSize: 15),),
           showMatrix(matriz: evaluator.getResultado),
-          showVector(lista: solucion)
+          showSolution(lista: solucion, indices: new List(0))
         ],
       );
     }else{
